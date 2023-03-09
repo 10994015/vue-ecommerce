@@ -2,6 +2,8 @@
 import { LockClosedIcon } from '@heroicons/vue/20/solid'
 import { ref } from 'vue';
 import GuestLayout from '../components/GuestLayout.vue'
+import store from "../store"
+import router from "../router"
 
 const loading = ref(false);
 const errorMsg = ref("");
