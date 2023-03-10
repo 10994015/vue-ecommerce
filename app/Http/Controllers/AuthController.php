@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class AuthController extends Controller
 
         if(!Auth::attempt($credentials, $remember)){
             return response([
-                'message'=> '帳號與密碼不匹配'
+                'message'=> '帳號或密碼錯誤'
             ], 422);
         }
 
@@ -35,7 +36,7 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
 
         return response([
-            'user'=>$user,
+            'user'=> new UserResource($user),
             'token'=>$token,
         ]);
     }
@@ -45,5 +46,9 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
 
         return response('', 204);
+    }
+
+    public function getUser(Request $req){
+        return new UserResource($req->user());
     }
 }

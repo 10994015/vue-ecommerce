@@ -2,11 +2,12 @@
   import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   import { ChevronDownIcon } from '@heroicons/vue/20/solid'
   import { Bars3Icon, UsersIcon, NoSymbolIcon } from '@heroicons/vue/20/solid'
-import router from '../router';
+import { computed } from 'vue';
+  import { useRouter } from 'vue-router';
   import store from '../store';
-
+  const router = useRouter();
   const emit = defineEmits(['toggle-sidebar']);
-
+  const currentUser = computed(()=> store.state.user.data);
   const logout = ()=>{
     store.dispatch('logout').then(()=>{
       router.push({name:'login'})
@@ -26,7 +27,7 @@ import router from '../router';
           class="flex items-center"
         >
           <img src="https://randomuser.me/api/portraits/men/0.jpg" class="rounded-full w-10 mr-2" />
-          <small>Lebron James</small>
+          <small>{{currentUser.name}}</small>
           <ChevronDownIcon
             class="h-5 w-5 text-violet-200 hover:text-violet-100"
             aria-hidden="true"
