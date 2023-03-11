@@ -19,12 +19,14 @@ class ProductController extends Controller
         // $search = request('search', false);
         $search = request('search', '');
         $perPage = request('per_page', 10);
+        $sortField = request('sort_field', 'updated_at');
+        $sortDirection = request('sort_direction', 'desc');
         // $query = Product::where(true);
         // // $query = Product::query();
         // if($search){
         //     $query->where('title', 'link', "%$search%")->orWhere('desctiption', 'like', "%$search%");
         // }
-        return ProductListResource::collection(Product::where('title', 'like', "%{$search}%")->orWhere('description', 'like', "%{$search}%")->paginate($perPage));
+        return ProductListResource::collection(Product::where('title', 'like', "%{$search}%")->orWhere('description', 'like', "%{$search}%")->orderBy($sortField, $sortDirection)->paginate($perPage));
     }
 
     /**
